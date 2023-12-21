@@ -1,0 +1,13 @@
+.*
+!.gitignore
+!.github/
+
+*pyc
+__pycache__
+
+logs/
+*.log
+*.log.*
+wechat/*
+
+config.yaml
