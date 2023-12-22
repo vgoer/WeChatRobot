@@ -76,7 +76,25 @@ class Robot(Job):
         :param msg: 微信消息结构
         :return: 处理状态，`True` 成功，`False` 失败
         """
-        return self.toChitchat(msg)
+        # return self.sendTextMsg("艾特你大爷干嘛！", msg)
+        return self.toMessage(msg)
+
+    def toMessage(self, msg: WxMsg) -> bool:
+            """ 测试的 机器人
+            """
+            rsp = "你@我干嘛？"
+
+            if rsp:
+                if msg.from_group():
+                    self.wcf.send_image('C:\\Users\\vgoer\Pictures\\touxiang\kunkun.png', msg.roomid)
+                    # self.sendTextMsg(rsp, msg.roomid, msg.sender)
+                else:
+                    self.sendTextMsg(rsp, msg.sender)
+
+                return True
+            else:
+                self.LOG.error(f"无法获取信息~~")
+                return False
 
     def toChengyu(self, msg: WxMsg) -> bool:
         """

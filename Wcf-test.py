@@ -2,7 +2,7 @@ from wcferry import Wcf
 
 wcf = Wcf()
 res = wcf.is_login()
-
+print(res)
 
 info = wcf.get_user_info()
 
