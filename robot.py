@@ -82,12 +82,15 @@ class Robot(Job):
     def toMessage(self, msg: WxMsg) -> bool:
             """ 测试的 机器人
             """
-            rsp = "你@我干嘛？"
+            rsp = "你@你大爷的！！！"
 
             if rsp:
                 if msg.from_group():
-                    self.wcf.send_image('C:\\Users\\vgoer\Pictures\\touxiang\kunkun.png', msg.roomid)
-                    # self.sendTextMsg(rsp, msg.roomid, msg.sender)
+
+                    # 发送图片
+                    # self.wcf.send_image('C:\\Users\\vgoer\Pictures\\touxiang\kunkun.png', msg.roomid)
+                    self.sendTextMsg(rsp, msg.roomid, msg.sender)
+
                 else:
                     self.sendTextMsg(rsp, msg.sender)
 
@@ -95,6 +98,19 @@ class Robot(Job):
             else:
                 self.LOG.error(f"无法获取信息~~")
                 return False
+
+    def sendTextMsgList(self, msg: str, receiver: str, at_list: str = "") -> None:
+            ats = self._format_at_list(at_list, receiver)
+            formatted_msg = f"{ats} {msg}" if ats else msg
+            self.LOG.info(f"To {receiver}: {formatted_msg}")
+            self.wcf.send_text(formatted_msg, receiver, at_list)
+
+    def _format_at_list(self, at_list: str, receiver: str) -> str:
+        if at_list == "notify@all":
+            return " @所有人"
+        if at_list != None and at_list != '':
+            return ''.join([f" @{self.wcf.get_alias_in_chatroom(wxid, receiver)}" for wxid in at_list.split(",")])
+    
 
     def toChengyu(self, msg: WxMsg) -> bool:
         """
